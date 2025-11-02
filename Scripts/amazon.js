@@ -89,14 +89,63 @@ products.forEach((product)=>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary cartbtn " data-product-id = "${product.id}" >
             Add to Cart
           </button>
         </div>`
 
+        
+        //   <button class="add-to-cart-button button-primary cartbtn " data-product-name = "${product.name}" >
         // console.log(html);
 })
 
-console.log(productsHtml);
+// data-product-name is a Data Attribute. We want like when the user press any add to cart button, we just track the pressed button. that's why we used data attribute as it helps to sepereate the data.
+// Data attribute must be start with keyword data-NameOfData = value 
+
+// console.log(productsHtml);
 
 document.querySelector('.allproduct').innerHTML = productsHtml;
+
+document.querySelectorAll('.cartbtn').forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+        // dataset gives all the properties that are attached with the data Attribute. or the selected btn
+
+        // console.log(btn.dataset.productName);       // productName is the property of the btn.datset
+
+        // const productName = btn.dataset.productName ;   // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
+        const productId = btn.dataset.productId ;   // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
+
+        // Imp : When you use dataset, the browser automatically converts the HTML attribute name into camelCase. meanse if you write like user-name = userName similarly the product-id = productId .
+        
+
+        // cart.push({
+        //     productName : productName,
+        //     quantity : 1
+        // })
+        // console.log(cart);  // Here is a problem, when we press again the add to cart, same product added again rather than increasing the quantity.
+
+        let machingItem;
+        
+        cart.forEach((item)=>{
+            // if(productName === item.productName ){  // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
+            if(productId === item.productId ){  // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
+                machingItem = item ;
+            }           
+        })
+
+         if(machingItem){
+                machingItem.quantity += 1;
+            }
+            else{
+                cart.push({
+                    // productName : productName,
+                    productId : productId,
+                    quantity : 1
+                })
+            }
+
+            console.log(cart);
+
+
+    })
+})
