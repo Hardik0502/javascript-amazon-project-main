@@ -1,4 +1,6 @@
-import { cart } from "../data/cart.js";
+import { cart, addTocart } from "../data/cart.js";
+import { products } from "../data/products.js";
+
 
 // We have the data of all product in seperate file so we just added into the amazon.html page that helps to give that data.
 
@@ -108,6 +110,10 @@ products.forEach((product)=>{
 
 document.querySelector('.allproduct').innerHTML = productsHtml;
 
+
+
+
+
 document.querySelectorAll('.cartbtn').forEach((btn)=>{
     btn.addEventListener('click', ()=>{
         // dataset gives all the properties that are attached with the data Attribute. or the selected btn
@@ -126,41 +132,10 @@ document.querySelectorAll('.cartbtn').forEach((btn)=>{
         // })
         // console.log(cart);  // Here is a problem, when we press again the add to cart, same product added again rather than increasing the quantity.
 
-        const SelectQuantity = document.querySelector(`.selectProduct-${productId}`)  // Default the DOM gives us String so we have to convert it into a number.
-        const SelectedQuantity = Number(SelectQuantity.value);
+        addTocart(productId); // The code was written here but we shifted into the cart so it doesn't look that much messy.
 
-
-        let machingItem;
-        
-        cart.forEach((item)=>{
-            // if(productName === item.productName ){  // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
-            if(productId === item.productId ){  // There is a chance, some product may have same name so we should use ID of the prodcut that always unique.
-                machingItem = item ;
-            }           
-        })
-
-         if(machingItem){
-                machingItem.quantity += SelectedQuantity;
-            }
-            else{
-                cart.push({
-                    // productName : productName,
-                    productId : productId,
-                    quantity : SelectedQuantity
-                })
-            }
-
-            // At the top left cornner you can see the shop icon that usually shows the total cart that you cart. So first we make a variable and then store into the other cart. as like machingItem.
-
-            let cartQuantity = 0;
-
-            cart.forEach((item)=>{
-              cartQuantity += item.quantity ;
-            })
-
-            console.log(cartQuantity);  
-          
-          document.querySelector('.totalcart').innerHTML = cartQuantity ;
+       
+          // Added msg Printing process ...
 
           let msg = document.querySelector(`.added-${productId}`);
 
