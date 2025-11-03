@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+
 // We have the data of all product in seperate file so we just added into the amazon.html page that helps to give that data.
 
 // const products = [
