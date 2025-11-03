@@ -1,6 +1,16 @@
 // const cart = [];
 
-export const cart = [];
+export const cart = [{
+    // See below , we have to write the exact object that we wrote before in line 30 and 31.
+    productId : 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6', // The first item's id.
+    quantity : 2    // We are writing based on the checkout page.
+},
+{ // You may have question why i write only these two properties though checkout page has image,name,price etc. Because we can take it from our product.js file which has all data. and the product id here is needed because we can search on the product.js file through this productid.
+
+    productId : '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+    quantity : 1
+}
+];
 
 
 export let addTocart = (productId)=>{
