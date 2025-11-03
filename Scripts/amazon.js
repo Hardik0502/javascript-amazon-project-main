@@ -68,7 +68,7 @@ products.forEach((product)=>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="selectProduct-${product.id}" >
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -82,10 +82,9 @@ products.forEach((product)=>{
             </select>
           </div>
 
-          <div class="product-spacer"></div>
-
-          <div class="added-to-cart">
-            <img src="images/icons/checkmark.png">
+            
+          <div class="addedcart added-${product.id}">
+          <img src="./images/icons/checkmark.png">
             Added
           </div>
 
@@ -98,6 +97,7 @@ products.forEach((product)=>{
         //   <button class="add-to-cart-button button-primary cartbtn " data-product-name = "${product.name}" >
         // console.log(html);
 })
+
 
 // data-product-name is a Data Attribute. We want like when the user press any add to cart button, we just track the pressed button. that's why we used data attribute as it helps to sepereate the data.
 // Data attribute must be start with keyword data-NameOfData = value 
@@ -124,6 +124,10 @@ document.querySelectorAll('.cartbtn').forEach((btn)=>{
         // })
         // console.log(cart);  // Here is a problem, when we press again the add to cart, same product added again rather than increasing the quantity.
 
+        const SelectQuantity = document.querySelector(`.selectProduct-${productId}`)  // Default the DOM gives us String so we have to convert it into a number.
+        const SelectedQuantity = Number(SelectQuantity.value);
+
+
         let machingItem;
         
         cart.forEach((item)=>{
@@ -134,13 +138,13 @@ document.querySelectorAll('.cartbtn').forEach((btn)=>{
         })
 
          if(machingItem){
-                machingItem.quantity += 1;
+                machingItem.quantity += SelectedQuantity;
             }
             else{
                 cart.push({
                     // productName : productName,
                     productId : productId,
-                    quantity : 1
+                    quantity : SelectedQuantity
                 })
             }
 
@@ -156,6 +160,15 @@ document.querySelectorAll('.cartbtn').forEach((btn)=>{
           
           document.querySelector('.totalcart').innerHTML = cartQuantity ;
 
+          let msg = document.querySelector(`.added-${productId}`);
+
+          msg.classList.add('addedcartshow');
+
+          setTimeout(() => {
+            msg.classList.remove('addedcartshow');
+          }, 2000);
+
+          
 
     })
 })
