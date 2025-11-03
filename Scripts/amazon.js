@@ -144,7 +144,17 @@ document.querySelectorAll('.cartbtn').forEach((btn)=>{
                 })
             }
 
-            console.log(cart);
+            // At the top left cornner you can see the shop icon that usually shows the total cart that you cart. So first we make a variable and then store into the other cart. as like machingItem.
+
+            let cartQuantity = 0;
+
+            cart.forEach((item)=>{
+              cartQuantity += item.quantity ;
+            })
+
+            console.log(cartQuantity);  
+          
+          document.querySelector('.totalcart').innerHTML = cartQuantity ;
 
 
     })
