@@ -1,7 +1,7 @@
 // const cart = [];
 
 export const cart = [{
-    // See below , we have to write the exact object that we wrote before in line 30 and 31.
+    // See below , we have to write the exact object that we wrote before in line 36 and 37.
     productId : 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6', // The first item's id.
     quantity : 2    // We are writing based on the checkout page.
 },
