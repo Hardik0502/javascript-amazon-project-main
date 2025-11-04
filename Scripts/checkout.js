@@ -1,6 +1,6 @@
 // first we made the array names cart, including the object: projectid and the quantity.
 
-import { cart } from "../data/cart.js";
+import { cart, removeproduct } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 // We pasted the html. Now we need the productid to search the product inorder to get the other data of product on products.js file
@@ -109,18 +109,4 @@ document.querySelector('.order-summary').innerHTML = productsHtml;
 
 
   
-  document.querySelectorAll('.deletebtn').forEach((dellink)=>{
-    
-    dellink.addEventListener("click",()=>{
-      let productId = dellink.dataset.productId ;     // Data element in delete link to get the delete click product's id
-     
-      const productHtml = document.querySelector(`.oneproduct-${productId}`)  // The parent containar that we wan to delete along with unique id to specify the product.
-      if(productHtml){
-        productHtml.remove();
-        // console.log("removed.",productId);
-      }
-
-      // console.log(productHtml);
-
-    })
-  })
+  removeproduct();
