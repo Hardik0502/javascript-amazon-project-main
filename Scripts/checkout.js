@@ -24,7 +24,7 @@ cart.forEach((item)=>{
     // console.log(matchingProduct);
 
 
-   productsHtml +=  ` <div class="cart-item-container">
+   productsHtml +=  ` <div class="cart-item-container oneproduct-${matchingProduct.id}" >
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -47,7 +47,7 @@ cart.forEach((item)=>{
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="delete-quantity-link link-primary deletebtn" data-product-id=${matchingProduct.id}>
                     Delete
                   </span>
                 </div>
@@ -106,3 +106,21 @@ cart.forEach((item)=>{
 // console.log(productsHtml);
 
 document.querySelector('.order-summary').innerHTML = productsHtml;
+
+
+  
+  document.querySelectorAll('.deletebtn').forEach((dellink)=>{
+    
+    dellink.addEventListener("click",()=>{
+      let productId = dellink.dataset.productId ;     // Data element in delete link to get the delete click product's id
+     
+      const productHtml = document.querySelector(`.oneproduct-${productId}`)  // The parent containar that we wan to delete along with unique id to specify the product.
+      if(productHtml){
+        productHtml.remove();
+        // console.log("removed.",productId);
+      }
+
+      // console.log(productHtml);
+
+    })
+  })
