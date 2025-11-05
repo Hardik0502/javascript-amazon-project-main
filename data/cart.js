@@ -110,5 +110,27 @@ export let removeproduct = ()=>{
     })
   })
 
+}
+
+// In cart section you get the delivery date just above the each product, here we are going to change that date based on the delivery option the user select. 
+// For this we require productId to get that which product's delivery date has been choosed through the optionId so we required this both id to change that above delivery date.
+
+export let updateDeliveryOption = (productId , deliveryoptionId)=>{
+// In above code we already find the productId so we just copy past that and then we will gives that matchingproduct to delivery id so that ensures the same product.
+
+let matchingItem ;
+
+cart.forEach((cartItem)=>{
+  
+  if(productId === cartItem.productId){
+    matchingItem = cartItem;
+  }
+
+  matchingItem.deliveryoptionId = deliveryoptionId;
+
+  saveproductdata();
+
+})
+
 
 }
