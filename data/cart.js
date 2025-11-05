@@ -91,7 +91,7 @@ export let removeproduct = ()=>{
 
       // All the addtocart product are stored in cart array. so first we have to remove the product from the cart array. and then remove from the html.
       // as we know the filter method takes the true value and delete the false value. so our item should not match with the other product, it's like we have a,b,c,d item and the user want to delete c item
-      // a = b false, a = c true a = d false so only a = x will stay and the rest are removed.That's how you get the deleted product's localation.
+      // a = b true, a = c false a = d true so only a = x will stay and the rest are removed.That's how you get the deleted product's localation.
       cart = cart.filter((item)=>{
         return item.productId !== productId;
       })
