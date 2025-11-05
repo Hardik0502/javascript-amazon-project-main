@@ -1,7 +1,15 @@
 // first we made the array names cart, including the object: projectid and the quantity.
 
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
+
+// for learning purposer : External libraries for dayjs
+// let today = dayjs();
+// let deliveryDate = today.add(7, 'days')
+// console.log(deliveryDate.format('dddd, MMM D'));
+
 import { cart, removeproduct } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { deliveryOptions } from '../data/deliverytiming.js';
 
 // We pasted the html. Now we need the productid to search the product inorder to get the other data of product on products.js file
 
@@ -23,10 +31,12 @@ cart.forEach((item)=>{
     });
     // console.log(matchingProduct);
 
+      const today = dayjs();
+      const finalDate = today.format('dddd , MMM D')
 
    productsHtml +=  ` <div class="cart-item-container oneproduct-${matchingProduct.id}" >
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery Date : ${finalDate}
             </div>
 
             <div class="cart-item-details-grid">
@@ -57,45 +67,7 @@ cart.forEach((item)=>{
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                ${deliveryoptionHtml(matchingProduct)}
               </div>
             </div>
           </div>
@@ -107,6 +79,38 @@ cart.forEach((item)=>{
 
 document.querySelector('.order-summary').innerHTML = productsHtml;
 
-
-  
   removeproduct();
+
+
+  // We want to show the delivery date in form of option 1 has 7 days delay, 2 has 3 days delay and 3 has 1 day delay. We want all option so we used foreach loop to get the exact days delay.
+  function deliveryoptionHtml(matchingProduct){
+
+    let optionsHtml = ' ';
+
+    deliveryOptions.forEach((deliveryoption)=>{ // firstly format the date and price
+      const today = dayjs();
+      const deliveryDate = today.add(deliveryoption.deliveryDays , 'Days');
+      const finalDate = deliveryDate.format('dddd , MMM D')
+
+      const productPrice = deliveryoption.priceCents === 0 ? ' FREE' : `$ ${(deliveryoption.priceCents / 100).toFixed(2)} - `  ;
+
+      
+        optionsHtml +=  `
+                            <div class="delivery-option">
+                              <input type="radio" checked
+                                class="delivery-option-input"
+                                name="delivery-option-${matchingProduct.id}">
+                              <div>
+                                <div class="delivery-option-date">
+                                  ${ finalDate }
+                                </div>
+                                <div class="delivery-option-price">
+                                  ${ productPrice } Shipping
+                                </div>
+                              </div>
+                            </div>
+                                      `
+    })
+      return optionsHtml;   // A function that creates or builds data/HTML/tex, the return must be written.
+  }
+
