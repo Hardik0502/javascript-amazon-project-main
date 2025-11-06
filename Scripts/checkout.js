@@ -138,23 +138,24 @@ import { deliveryopt, deliveryOptions } from '../data/deliverytiming.js';
       }
 
 
-    document.querySelectorAll('.selectedOption').forEach((opt)=>{
-        opt.addEventListener('click',()=>{
+//     document.querySelectorAll('.selectedOption').forEach((opt)=>{
+//         opt.addEventListener('click',()=>{
 
-          const { productId , deliveryoptionId } = opt.dataset ;
-          // const productId = opt.dataset.productId;
-          // const deliveryoptionId = opt.dataset.deliveryoptionId;
+//           const { productId , deliveryoptionId } = opt.dataset ;
+//           // const productId = opt.dataset.productId;
+//           // const deliveryoptionId = opt.dataset.deliveryoptionId;
     
-          updateDeliveryOption(productId , deliveryoptionId);
+//           updateDeliveryOption(productId , deliveryoptionId);
 
-        })
-})
+//         })
+// })
 
-function payemnt(){
+function payment(){
 
 
   let productPrice = 0;
   let shippingPrice = 0;
+  let buyitem = 0;
 
   cart.forEach((cartItem)=>{
     
@@ -162,8 +163,11 @@ function payemnt(){
     let product = getproduct(cartItem.productId)
     productPrice += product.priceCents * cartItem.quantity ;
 
-    let shippig = deliveryopt(cartItem.deliveryId);
+    let shippig = deliveryopt(cartItem.deliveryOptionId);
     shippingPrice += shippig.priceCents ;
+
+    let totalItem = cartItem.quantity;
+    buyitem += totalItem;
 
     const totalBeforeTax = productPrice + shippingPrice ;
 
@@ -171,43 +175,48 @@ function payemnt(){
 
     const total = totalBeforeTax + tax ;
 
-    const paymentHtml = ` <div class="payment-summary">
-          <div class="payment-summary-title">
+    let paymentHtml = ` 
+          <div class="payment-summary-title paymentsection">
             Order Summary
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
-            <div class="payment-summary-money">$${Math.round((productPrice / 100).toFixed(2))}</div>
+            <div>Items (${buyitem}):</div>
+            <div class="payment-summary-money">$${(productPrice / 100).toFixed(2)}</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Shipping &amp; handling:</div>
-            <div class="payment-summary-money">$${Math.round((shippingPrice / 100).toFixed(2))}</div>
+            <div class="payment-summary-money">$${(shippingPrice / 100).toFixed(2)}</div>
           </div>
 
           <div class="payment-summary-row subtotal-row">
             <div>Total before tax:</div>
-            <div class="payment-summary-money">$${Math.round((totalBeforeTax / 100).toFixed(2))}</div>
+            <div class="payment-summary-money">$${(totalBeforeTax / 100).toFixed(2)}</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Estimated tax (10%):</div>
-            <div class="payment-summary-money">$${Math.round((tax / 100).toFixed(2))}</div>
+            <div class="payment-summary-money">$${(tax / 100).toFixed(2)}</div>
           </div>
 
           <div class="payment-summary-row total-row">
             <div>Order total:</div>
-            <div class="payment-summary-money">$${Math.round((total / 100).toFixed(2))}</div>
+            <div class="payment-summary-money">$${(total / 100).toFixed(2)}</div>
           </div>
 
           <button class="place-order-button button-primary">
             Place your order
-          </button> `;
+          </button>
+          
+          `;
 
-        document.querySelector('.payment-summary').innerHTML = paymentHtml ;
+          document.querySelector('.payment-summary').innerHTML = paymentHtml;
     
-  })
+    
+    })
+
+
 }
 
-payemnt();
+payment();

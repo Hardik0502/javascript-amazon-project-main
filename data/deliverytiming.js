@@ -1,8 +1,8 @@
-export function deliveryopt(deliveryId){
+export function deliveryopt(deliveryOptionId){
     let deliveryoption ;
 
     deliveryOptions.forEach((option)=>{
-        if(option.id === deliveryId){
+        if(option.id === deliveryOptionId){
             deliveryoption = option ;
         }
     });
