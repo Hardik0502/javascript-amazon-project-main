@@ -8,8 +8,10 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
 // console.log(deliveryDate.format('dddd, MMM D'));
 
 import { cart, removeproduct, updateDeliveryOption } from "../data/cart.js";
-import { products } from "../data/products.js";
-import { deliveryOptions } from '../data/deliverytiming.js';
+import { getproduct, products } from "../data/products.js";
+import { deliveryopt, deliveryOptions } from '../data/deliverytiming.js';
+
+
 
 // We pasted the html. Now we need the productid to search the product inorder to get the other data of product on products.js file
 
@@ -51,7 +53,7 @@ import { deliveryOptions } from '../data/deliverytiming.js';
 
       productsHtml +=  ` <div class="cart-item-container oneproduct-${matchingProduct.id} " >
                 <div class="delivery-date">
-                  Delivery Date : ${finalDate}
+                  Current Date : ${finalDate}
                 </div>
 
                 <div class="cart-item-details-grid">
@@ -148,3 +150,64 @@ import { deliveryOptions } from '../data/deliverytiming.js';
         })
 })
 
+function payemnt(){
+
+
+  let productPrice = 0;
+  let shippingPrice = 0;
+
+  cart.forEach((cartItem)=>{
+    
+    // For product with it's quantity , we made function in product.
+    let product = getproduct(cartItem.productId)
+    productPrice += product.priceCents * cartItem.quantity ;
+
+    let shippig = deliveryopt(cartItem.deliveryId);
+    shippingPrice += shippig.priceCents ;
+
+    const totalBeforeTax = productPrice + shippingPrice ;
+
+    const tax = totalBeforeTax * 0.1 ;
+
+    const total = totalBeforeTax + tax ;
+
+    const paymentHtml = ` <div class="payment-summary">
+          <div class="payment-summary-title">
+            Order Summary
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Items (3):</div>
+            <div class="payment-summary-money">$${Math.round((productPrice / 100).toFixed(2))}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Shipping &amp; handling:</div>
+            <div class="payment-summary-money">$${Math.round((shippingPrice / 100).toFixed(2))}</div>
+          </div>
+
+          <div class="payment-summary-row subtotal-row">
+            <div>Total before tax:</div>
+            <div class="payment-summary-money">$${Math.round((totalBeforeTax / 100).toFixed(2))}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Estimated tax (10%):</div>
+            <div class="payment-summary-money">$${Math.round((tax / 100).toFixed(2))}</div>
+          </div>
+
+          <div class="payment-summary-row total-row">
+            <div>Order total:</div>
+            <div class="payment-summary-money">$${Math.round((total / 100).toFixed(2))}</div>
+          </div>
+
+          <button class="place-order-button button-primary">
+            Place your order
+          </button> `;
+
+        document.querySelector('.payment-summary').innerHTML = paymentHtml ;
+    
+  })
+}
+
+payemnt();
