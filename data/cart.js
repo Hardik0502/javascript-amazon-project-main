@@ -1,5 +1,7 @@
 // const cart = [];
 
+import { payment } from "./Payment.js";
+
 // export const cart = [{productid and the quantity that written below was here}]
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
@@ -105,7 +107,7 @@ export let removeproduct = ()=>{
       }
 
       // console.log(productHtml);
-      
+      payment();
       saveproductdata();
     })
   })
